@@ -1,6 +1,6 @@
 {
     "name": "b"
-  , "version": "0.0.0"
+  , "version": "0.0.1"
   , "description": "Benchmarks for Node.js."
   , "keywords": ["benchmarks", "benchmarking"]
   , "author": "Veselin Todorov <hi@vesln.com>"
