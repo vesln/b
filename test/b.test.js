@@ -44,7 +44,7 @@ describe('Benchmark', function() {
         done();
       };
       var b = new Benchmark('Async for bench.', s, bench).run();
-      stream.text.should.match(/^Async for bench. [0-9]+ms$/);
+      stream.text.should.match(/^Async for bench. [0-9]+ms/);
     });
   });
   
@@ -55,7 +55,7 @@ describe('Benchmark', function() {
       b.start();
       for (var i = -1; ++i < 10000000;) var foo = 3;
       b.end();
-      stream.text.should.match(/^For benchmark. [0-9]+ms$/);
+      stream.text.should.match(/^For benchmark. [0-9]+ms/);
     });
   });
 });
