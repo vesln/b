@@ -1,12 +1,51 @@
 [![Build Status](https://secure.travis-ci.org/vesln/b.png)](http://travis-ci.org/vesln/b)
 
-# B -
+# B - Benchmarks for Node.js
 
 ## Description
+
+B is small and elegant module for Node.js that makes benchmarking fun.
 	
 ## Features
 
+- Async & sync benchmarks.
+- Custom streams.
+- Benchmark names. Useful when running multiple benchmarks at the same time.
+
 ## Synopsis
+
+```js
+
+var benchmark = require('b');
+
+benchmark(function(done) {
+	for (var i = -1; ++i < 10000000;) var foo = 3;	
+	done();
+});
+
+```
+
+```js
+
+var benchmark = require('b');
+var b = benchmark('Simple bench.');
+
+b.start();
+for (var i = -1; ++i < 10000000;) var foo = 3;
+b.end();
+
+```
+
+```js
+
+var benchmark = require('b').Benchmark;
+
+var b = new Benchmark('Testing cool stuff', process.stdout, function(done) {
+  for (var i = -1; ++i < 10000000;) var foo = 3;
+  done();
+}).run();
+
+```
 
 ## Requirements
 
