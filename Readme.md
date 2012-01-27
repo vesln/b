@@ -1,28 +1,12 @@
-[![Build Status](https://secure.travis-ci.org/vesln/bot.png)](http://travis-ci.org/vesln/bot)
+[![Build Status](https://secure.travis-ci.org/vesln/b.png)](http://travis-ci.org/vesln/b)
 
-# Bot
-
-![screenshot](http://img850.imageshack.us/img850/79/screenshot20120121at637.png)
+# B -
 
 ## Description
 	
-Bot is simple, stupid node.js chat bot that will make your day better.
-
-Why? No idea, I just had the idea of making chat bot. It has database with more than 15 000 famous quotes and
-having a chat with the bot is pretty fun.
-
 ## Features
 
-- You can have fun when you are bored.
-- Now you can have better Twitter/Facebook statuses. :D
-
 ## Synopsis
-
-```
-Usage: bot
-```
-
-Now type stuff.
 
 ## Requirements
 
@@ -32,7 +16,7 @@ Now type stuff.
 ## Install
 
 ```
-$ npm install bot -g
+$ npm install b
 ```
 
 ## Tests
