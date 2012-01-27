@@ -6,6 +6,11 @@
  */
 
 /**
+ * Test dependencies.
+ */
+var inherit = require('super');
+
+/**
  * The tested class.
  * 
  * @type {Function}
@@ -33,19 +38,24 @@ var stream = {
 describe('Benchmark', function() {
   describe('asynchronous code', function() {
     it('should run benchmarks asynchronously', function() {
-      
+      var s = inherit(stream, {});
+      var bench = function(done) {
+        for (var i = -1; ++i < 10000000;) var foo = 3;
+        done();
+      };
+      var b = new Benchmark('Async for bench.', s, bench).run();
+      stream.text.should.match(/^Async for bench. [0-9]+ms$/);
     });
   });
   
   describe('synchronous code', function() {
     it('should run benchmarks synchronously', function() {
-      var b = new Benchmark('For benchmark.', stream);
+      var s = inherit(stream, {});
+      var b = new Benchmark('For benchmark.', s);
       b.start();
-      for (var i = -1; ++i < 10000000;) {
-        var foo = 3;
-      }
+      for (var i = -1; ++i < 10000000;) var foo = 3;
       b.end();
-      stream.text.should.match(/^For benchmark. [0-9]+ms/);
+      stream.text.should.match(/^For benchmark. [0-9]+ms$/);
     });
   });
 });
