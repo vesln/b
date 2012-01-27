@@ -4,11 +4,10 @@
   , "description": "Benchmarks for Node.js."
   , "keywords": ["benchmarks", "benchmarking"]
   , "author": "Veselin Todorov <hi@vesln.com>"
-  , "dependencies": {
-  }
   , "devDependencies": {
       "mocha": "0.3.3"
     , "should": "0.3.2"
+    , "super": "0.0.1"
   }
   , "repository" : {
       "type" : "git"
