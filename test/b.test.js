@@ -31,19 +31,21 @@ var stream = {
 };
 
 describe('Benchmark', function() {
-  describe('asynchronous', function() {
+  describe('asynchronous code', function() {
     it('should run benchmarks asynchronously', function() {
       
     });
   });
   
-  describe('synchronous', function() {
+  describe('synchronous code', function() {
     it('should run benchmarks synchronously', function() {
       var b = new Benchmark('For benchmark.', stream);
       b.start();
-      for (var i = -1; ++i < 100;) {}
+      for (var i = -1; ++i < 10000000;) {
+        var foo = 3;
+      }
       b.end();
-      stream.text.should.match(/^For benchmark./);
+      stream.text.should.match(/^For benchmark. [0-9]+ms/);
     });
   });
 });
