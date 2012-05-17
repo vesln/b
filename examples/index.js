@@ -1,30 +1,27 @@
 /*!
  * B - Benchmarks for Node.js.
- * 
+ *
  * Veselin Todorov <hi@vesln.com>
  * MIT License.
  */
 
-var benchmark = null;
-var benchmark = Benchmark = require('../');
-var b = benchmark('Simple bench.');
+/**
+ * B
+ *
+ * @type {Object}
+ */
+var b = require('../');
 
-b.start();
-for (var i = -1; ++i < 10000000;) var foo = 3;
-b.end();
-
-benchmark(function(done) {
-  for (var i = -1; ++i < 10000000;) var foo = 3;
-  done();
+/**
+ * Synchronous
+ */
+b('Synchronous benchmark').run(100, function() {
+  for (var i = 0, len = 1000000; ++i < len;) {}
 });
 
-b = new Benchmark('Testing cool stuff', process.stdout, function(done) {
-  for (var i = -1; ++i < 10000000;) var foo = 3;
-  done();
-}).run();
-
-
-var bench = new Benchmark('Test', function(done) {
-  for (var i = -1; ++i < 10000000;) var foo = 3;
-  done();
-}).run();
+/**
+ * Asynchronous
+ */
+b('Asynchronous benchmark').run(10, function(done) {
+  setTimeout(done, 10);
+});
