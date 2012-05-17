@@ -5,9 +5,8 @@
   , "keywords": ["benchmarks", "benchmarking"]
   , "author": "Veselin Todorov <hi@vesln.com>"
   , "devDependencies": {
-      "mocha": "0.3.3"
-    , "should": "0.3.2"
-    , "super": "0.0.1"
+      "mocha": "*"
+    , "chai": "*"
   }
   , "repository" : {
       "type" : "git"
@@ -17,8 +16,8 @@
   , "scripts": {
       "test": "make test"
   }
-  , "main": "./lib/index"
-  , "engines": { 
+  , "main": "./lib/b"
+  , "engines": {
       "node": ">= 0.6.0 < 0.7.0"
   }
 }
