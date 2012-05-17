@@ -1,61 +1,54 @@
 /*!
  * B - Benchmarks for Node.js.
- * 
+ *
  * Veselin Todorov <hi@vesln.com>
  * MIT License.
  */
 
 /**
- * Test dependencies.
+ * Support
  */
-var inherit = require('super');
+var should = require('chai').should();
 
 /**
- * The tested class.
- * 
+ * Benchmark
+ *
  * @type {Function}
  */
-var Benchmark = require('../lib/b');
+var Benchmark = require('../lib/benchmark');
 
 /**
- * Mock stream.
- * 
- * @type {Object}
+ * Reporter
+ *
+ * @type {Function}
  */
-var stream = {
-  
-  /**
-   * Write mock.
-   * 
-   * @param {String} Text.
-   * @api public
-   */
-  write: function(text) {
-    this.text = text;
-  }
-};
+var Reporter = require('../lib/reporter');
 
-describe('Benchmark', function() {
-  describe('asynchronous code', function() {
-    it('should run benchmarks asynchronously', function() {
-      var s = inherit(stream, {});
-      var bench = function(done) {
-        for (var i = -1; ++i < 10000000;) var foo = 3;
-        done();
-      };
-      var b = new Benchmark('Async for bench.', s, bench).run();
-      stream.text.should.match(/^Async for bench. [0-9]+ms/);
-    });
+/**
+ * Subject
+ *
+ * @type {Function}
+ */
+var b = require('..');
+
+describe('b', function() {
+  it('exposes Benchmark', function() {
+    b.Benchmark.should.eq(Benchmark);
   });
-  
-  describe('synchronous code', function() {
-    it('should run benchmarks synchronously', function() {
-      var s = inherit(stream, {});
-      var b = new Benchmark('For benchmark.', s);
-      b.start();
-      for (var i = -1; ++i < 10000000;) var foo = 3;
-      b.end();
-      stream.text.should.match(/^For benchmark. [0-9]+ms/);
-    });
+
+  it('exposes Reporter', function() {
+    b.Reporter.should.eq(Reporter);
+  });
+
+  it('returns a new benchmark', function() {
+    b().should.be.an.instanceof(Benchmark);
+  });
+
+  it('sets the supplied benchmark description', function() {
+    b('Test')._name.should.eq('Test');
+  });
+
+  it('sets the default reporter', function() {
+    b()._reporter.should.be.an.instanceof(Reporter);
   });
 });
