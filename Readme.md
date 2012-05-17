@@ -8,43 +8,49 @@ B is small and elegant module for Node.js that makes benchmarking fun.
 	
 ## Features
 
-- Async & sync benchmarks.
-- Custom streams.
-- Benchmark names. Useful when running multiple benchmarks at the same time.
+- Async & sync benchmarks
+- Streams
+- Reporters
 
 ## Synopsis
 
+### Synchronous
+
 ```js
+var b = require('b');
 
-var benchmark = require('b');
-
-benchmark(function(done) {
-	for (var i = -1; ++i < 10000000;) var foo = 3;	
-	done();
+b('Synchronous benchmark').run(100, function() {
+  for (var i = 0, len = 1000000; ++i < len;) {
+    // do stuff
+  }
 });
-
 ```
 
-```js
-
-var benchmark = require('b');
-var b = benchmark('Simple bench.');
-
-b.start();
-for (var i = -1; ++i < 10000000;) var foo = 3;
-b.end();
-
-```
+### Asynchronous
 
 ```js
+var b = require('b');
 
-var benchmark = require('b').Benchmark;
-
-var b = new Benchmark('Testing cool stuff', process.stdout, function(done) {
-  for (var i = -1; ++i < 10000000;) var foo = 3;
+b('Asynchronous benchmark').run(10, function(done) {
+  // do stuff
   done();
-}).run();
+});
+```
 
+### Build your reporter
+
+```js
+function Reporter() {};
+
+Reporter.prototype.report = function(name, result, iterations) {
+  // report it
+};
+
+b('Custom reporter')
+  .reporter(new Reporter)
+  .run(10, function() {
+    // benchmark stuff
+  });
 ```
 
 ## Requirements
