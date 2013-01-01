@@ -49,7 +49,7 @@ describe('Benchmark', function() {
       done();
     };
 
-    new Benchmark('Test asynchronous benchmark').reporter(reporter).run(10, function(finish) {
+    new Benchmark('Test asynchronous benchmark').reporter(reporter).run(10, function(i, finish) {
       setTimeout(finish, 1);
     });
   });
