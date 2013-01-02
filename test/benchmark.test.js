@@ -53,4 +53,16 @@ describe('Benchmark', function() {
       setTimeout(finish, 1);
     });
   });
+
+  it('should give the correct time', function () {
+    new Benchmark('Test timer').reporter(reporter).run(1, function() {
+      var start = Date.now()
+      while (Date.now() - start < 10);
+    });
+
+    reporter.iterations.should.eq(1);
+    reporter.result.should.be.a('number');
+    reporter.result.should.be.above(9 * 1000000)
+    reporter.result.should.be.below(11 * 1000000)
+  })
 });
