@@ -62,7 +62,6 @@ describe('Benchmark', function() {
 
     reporter.iterations.should.eq(1);
     reporter.result.should.be.a('number');
-    reporter.result.should.be.above(9 * 1000000)
-    reporter.result.should.be.below(11 * 1000000)
+    reporter.result.should.be.within(9 * 1000000, 11 * 1000000)
   })
 });
