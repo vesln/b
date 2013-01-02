@@ -64,4 +64,10 @@ describe('Benchmark', function() {
     reporter.result.should.be.a('number');
     reporter.result.should.be.within(9 * 1000000, 11 * 1000000)
   })
+
+  it('should not allow negative iterations counts', function () {
+    (function () {
+      new Benchmark('negative').reporter(reporter).run(-1, function() {});
+    }).should.throw(Error, /iterations/i)
+  })
 });
