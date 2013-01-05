@@ -3,6 +3,7 @@
 
   * Add support for high resolution timers
   * Pass iteration index to the benchmarks callback
+  * Emit events
 
 1.0.0 / 2012-05-17
 ==================

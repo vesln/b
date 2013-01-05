@@ -51,6 +51,12 @@ b('Custom reporter')
   });
 ```
 
+## Events
+
+- start
+- stop
+- done
+
 ## Requirements
 
 - NPM (http://npmjs.org/)
