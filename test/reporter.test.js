@@ -1,27 +1,20 @@
-/*!
- * B - Benchmarks for Node.js.
- *
- * Veselin Todorov <hi@vesln.com>
- * MIT License.
- */
 
 /**
  * Support
  */
+
 var should = require('chai').should();
 
 /**
- * Fake Stream
- *
- * @type {Function}
+ * Fake Stream.
  */
+
 var FakeStream = require('./support/fake_stream');
 
 /**
- * Subject
- *
- * @type {Function}
+ * Subject.
  */
+
 var Reporter = require('../lib/reporters/cli');
 
 describe('Reporter', function() {

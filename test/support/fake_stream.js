@@ -1,15 +1,10 @@
-/*!
- * B - Benchmarks for Node.js.
- *
- * Veselin Todorov <hi@vesln.com>
- * MIT License.
- */
 
 /**
  * Fake Stream
  *
- * @api public
+ * @constructor
  */
+
 function FakeStream() {
   this.out = [];
 };
@@ -20,6 +15,7 @@ function FakeStream() {
  * @param {String} input
  * @api public
  */
+
 FakeStream.prototype.write = function(input) {
   this.out.push(normalize(input));
 };
@@ -34,6 +30,7 @@ FakeStream.prototype.write = function(input) {
  * @param {String}
  * @returns {String}
  */
+
 function normalize(string) {
   return string.replace(/\x1B\[[0-9;]*[mK]/g, '')
     .replace(/\s+/, ' ')
@@ -44,4 +41,5 @@ function normalize(string) {
 /**
  * Expose `FakeStream`.
  */
+
 module.exports = FakeStream;

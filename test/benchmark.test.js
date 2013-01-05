@@ -1,27 +1,20 @@
-/*!
- * B - Benchmarks for Node.js.
- *
- * Veselin Todorov <hi@vesln.com>
- * MIT License.
- */
 
 /**
  * Support
  */
+
 var should = require('chai').should();
 
 /**
  * Test Reporter
- *
- * @type {Function}
  */
+
 var TestReporter = require('./support/test_reporter');
 
 /**
  * Subject
- *
- * @type {Function}
  */
+
 var Benchmark = require('..');
 
 describe('Benchmark', function() {

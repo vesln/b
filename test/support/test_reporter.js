@@ -1,15 +1,10 @@
-/*!
- * B - Benchmarks for Node.js.
- *
- * Veselin Todorov <hi@vesln.com>
- * MIT License.
- */
 
 /**
  * Test Reporter
  *
  * @api public
  */
+
 function TestReporter() {};
 
 /**
@@ -20,6 +15,7 @@ function TestReporter() {};
  * @param {Number} iterations
  * @api public
  */
+
 TestReporter.prototype.report = function(name, result, iterations) {
   this.name = name;
   this.result = result;
@@ -29,4 +25,5 @@ TestReporter.prototype.report = function(name, result, iterations) {
 /**
  * Expose `TestReporter`.
  */
+
 module.exports = TestReporter;
