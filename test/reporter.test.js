@@ -22,7 +22,7 @@ var FakeStream = require('./support/fake_stream');
  *
  * @type {Function}
  */
-var Reporter = require('../lib/reporter');
+var Reporter = require('../lib/reporters/cli');
 
 describe('Reporter', function() {
   var stream = null;

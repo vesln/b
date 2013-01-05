@@ -22,7 +22,7 @@ var Benchmark = require('../lib/benchmark');
  *
  * @type {Function}
  */
-var Reporter = require('../lib/reporter');
+var Reporter = require('../lib/reporters/cli');
 
 /**
  * Subject
