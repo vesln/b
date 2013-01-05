@@ -22,6 +22,6 @@ b('Synchronous benchmark').run(100, function() {
 /**
  * Asynchronous
  */
-b('Asynchronous benchmark').run(10, function(done) {
+b('Asynchronous benchmark').run(10, function(i, done) {
   setTimeout(done, 10);
 });

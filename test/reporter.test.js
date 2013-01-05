@@ -22,7 +22,7 @@ var FakeStream = require('./support/fake_stream');
  *
  * @type {Function}
  */
-var Reporter = require('../lib/reporter');
+var Reporter = require('../lib/reporters/cli');
 
 describe('Reporter', function() {
   var stream = null;
@@ -51,9 +51,9 @@ describe('Reporter', function() {
 
   it('formats the results properly', function() {
     reporter.out = stream;
-    reporter.report('Test benchmark', 10, 100);
+    reporter.report('Test benchmark', 1000000, 100);
     stream.out[0].should.eq('Test benchmark');
     stream.out[2].should.eq('Iterations: 100');
-    stream.out[3].should.eq('Result: 10 ms');
+    stream.out[3].should.eq('Result: 1 ms');
   });
 });

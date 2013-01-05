@@ -8,7 +8,7 @@ B is small and elegant module for Node.js that makes benchmarking fun.
 	
 ## Features
 
-- Async & sync benchmarks
+- Async, sync & parrallel benchmarks
 - Streams
 - Reporters
 
@@ -19,10 +19,8 @@ B is small and elegant module for Node.js that makes benchmarking fun.
 ```js
 var b = require('b');
 
-b('Synchronous benchmark').run(100, function() {
-  for (var i = 0, len = 1000000; ++i < len;) {
-    // do stuff
-  }
+b('Synchronous benchmark').run(100, function(i) {
+  // do stuff
 });
 ```
 
@@ -31,10 +29,17 @@ b('Synchronous benchmark').run(100, function() {
 ```js
 var b = require('b');
 
-b('Asynchronous benchmark').run(10, function(done) {
+b('Asynchronous benchmark').run(10, function(i, done) {
   // do stuff
   done();
 });
+```
+
+### Select a reporter
+
+```js
+b('make pretty and print to console').reporter('cli')
+b('output json data').reporter('json')
 ```
 
 ### Build your reporter
@@ -52,6 +57,12 @@ b('Custom reporter')
     // benchmark stuff
   });
 ```
+
+## Events
+
+- start
+- stop
+- done
 
 ## Requirements
 
