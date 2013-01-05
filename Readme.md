@@ -5,7 +5,7 @@
 ## Description
 
 B is small and elegant module for Node.js that makes benchmarking fun.
-	
+
 ## Features
 
 - Async, sync & parrallel benchmarks
@@ -67,7 +67,7 @@ b('Custom reporter')
 ## Requirements
 
 - NPM (http://npmjs.org/)
-- Node.js 0.6 (http://nodejs.org/)
+- Node.js 0.8 (http://nodejs.org/)
 
 ## Install
 
@@ -80,6 +80,20 @@ $ npm install b
 ```
 $ npm install
 $ make test
+```
+
+## Contributors
+
+```
+ project  : b
+ repo age : 11 months ago
+ active   : 5 days
+ commits  : 46
+ files    : 16
+ authors  :
+    29	Veselin Todorov         63.0%
+    16	jkroso                  34.8%
+     1	Jakeb                   2.2%
 ```
 
 ## License

@@ -1,6 +1,6 @@
 {
     "name": "b"
-  , "version": "1.0.1"
+  , "version": "2.0.0"
   , "description": "Benchmarks for Node.js."
   , "keywords": ["benchmarks", "benchmarking"]
   , "author": "Veselin Todorov <hi@vesln.com>"
@@ -18,6 +18,6 @@
   }
   , "main": "./lib/b"
   , "engines": {
-      "node": ">= 0.6.0"
+      "node": ">= 0.8.0"
   }
 }
