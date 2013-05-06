@@ -3,7 +3,8 @@
  * Support
  */
 
-var should = require('chai').should();
+var should = require('chai').should()
+  , CLI = require('../lib/reporters/cli')
 
 /**
  * Test Reporter
@@ -62,5 +63,40 @@ describe('Benchmark', function() {
     (function () {
       new Benchmark('negative', function() {}).reporter(reporter).run(-1);
     }).should.throw(Error, /iterations/i)
+  })
+
+  describe('.reporter()', function () {
+    it('with a string should load a build in reporter', function () {
+      new Benchmark(function cli(){}).reporter('cli')
+        ._reporter.should.be.an.instanceOf(CLI)
+    })
+
+    it('with a function should create a new reporter', function (done) {
+      new Benchmark(function test(){})
+        .reporter(function(name, result, iterations){
+          name.should.equal('test')
+          result.should.be.a('number')
+          iterations.should.be.a('number')
+          done()
+        })
+        .run(1)
+    })
+
+    it('with an object should use it', function (done) {
+      new Benchmark(function test(){}).reporter({
+        report: function(name, result, iterations){
+          name.should.equal('test')
+          result.should.be.a('number')
+          iterations.should.be.a('number')
+          done()
+        }
+      }).run(1)
+    })
+
+    it('anything else should be an error', function () {
+      (function () {
+        new Benchmark(function(){}).reporter(1)
+      }).should.throw()
+    })
   })
 });
