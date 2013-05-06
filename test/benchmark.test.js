@@ -25,9 +25,9 @@ describe('Benchmark', function() {
   });
 
   it('can run benchmarks synchronously', function() {
-    new Benchmark('Test synchronous benchmark').reporter(reporter).run(100, function() {
+    new Benchmark('Test synchronous benchmark', function() {
       for (var i = -1, len = 100000; ++i < len;) void(0)
-    });
+    }).reporter(reporter).run(100);
 
     reporter.iterations.should.eq(100);
     reporter.name.should.eq('Test synchronous benchmark');
@@ -42,16 +42,16 @@ describe('Benchmark', function() {
       done();
     };
 
-    new Benchmark('Test asynchronous benchmark').reporter(reporter).run(10, function(i, finish) {
+    new Benchmark('Test asynchronous benchmark', function(i, finish) {
       setTimeout(finish, 1);
-    });
+    }).reporter(reporter).run(10);
   });
 
   it('should give the correct time', function () {
-    new Benchmark('Test timer').reporter(reporter).run(1, function() {
+    new Benchmark('Test timer', function() {
       var start = Date.now()
       while (Date.now() - start < 100);
-    });
+    }).reporter(reporter).run(1);
 
     reporter.iterations.should.eq(1);
     reporter.result.should.be.a('number');
@@ -60,7 +60,7 @@ describe('Benchmark', function() {
 
   it('should not allow negative iterations counts', function () {
     (function () {
-      new Benchmark('negative').reporter(reporter).run(-1, function() {});
+      new Benchmark('negative', function() {}).reporter(reporter).run(-1);
     }).should.throw(Error, /iterations/i)
   })
 });
