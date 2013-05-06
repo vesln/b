@@ -45,8 +45,9 @@ describe('Reporter', function() {
   it('formats the results properly', function() {
     reporter.out = stream;
     reporter.report('Test benchmark', 1000000, 100);
-    stream.out[0].should.eq('Test benchmark');
-    stream.out[2].should.eq('Iterations: 100');
-    stream.out[3].should.eq('Result: 1 ms');
+    var buf = stream.out.join('');
+    buf.should.include('Test benchmark');
+    buf.should.include('x 100');
+    buf.should.match(/Total: +1 ms/);
   });
 });
