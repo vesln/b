@@ -39,4 +39,13 @@ describe('file bench', function () {
 			}).node(done)
 		})
 	})
+
+	describe('.close()', function () {
+		it('should terminate its child process', function () {
+			var bench = new Bench('async', async)
+			bench.close()
+			bench.child.connected.should.be.false
+			bench.child.killed.should.be.true
+		})
+	})
 })

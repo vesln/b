@@ -49,5 +49,19 @@ describe('batch', function () {
 				})
 				.run(3)
 		})
+
+		it('close its child processes cleanly on completion', function (done) {
+			var batch = new Batch('test batch')
+				.add('sync', sync)
+				.add('async', async)
+				.reporter(function(name, results, iterations){})
+			batch.run(3).then(function(){
+				batch.benchs.forEach(function(bench){
+					bench.child.killed.should.be.true
+					bench.child.connected.should.be.false
+				})
+				done()
+			})
+		})
 	})
 })
