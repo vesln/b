@@ -19,29 +19,29 @@ b('Synchronous benchmark', function() {
 
 b('Asynchronous benchmark', function(i, done) {
   setTimeout(done, 10);
-}).run(10).then(function(){
-	console.log('')
-	batch.run(10).then(function(){
-		console.log('')
-		var dir = __dirname + '/file-benches'
-		b('file batch')
-			.add('sync', dir + '/sync.js')
-			.add('async', dir + '/async.js')
-			.run(10).then(function(){
-				console.log('')
-			})
-	})
 })
+.run(10)
+.then(function(){
+	return batch.run(10)
+})
+.then(function(){
+	return files.run(10)
+});
 
 /**
- * mixed batch
+ * in process batch
  */
 
-var batch = b('batch')
-	.add('sync', function(i){
-		var start = Date.now()
-		while (Date.now() - start < 10);
-	})
-	.add('async', function(i, done){
-		setTimeout(done, 10 - i)
-	})
+var batch = b('same process batch')
+	.add('sync', require('./file-benches/sync'))
+	.add('async', require('./file-benches/async'));
+
+var dir = __dirname + '/file-benches';
+
+/**
+ * seperate process batch
+ */
+
+var files = b('seperate process batch')
+	.add('sync', dir + '/sync.js')
+	.add('async', dir + '/async.js');
