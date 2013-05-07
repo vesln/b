@@ -22,10 +22,13 @@ b('Asynchronous benchmark', function(i, done) {
 })
 .run(10)
 .then(function(){
-	return batch.run(10)
+	return batch.run(10);
 })
 .then(function(){
-	return files.run(10)
+	return files.run(10);
+})
+.then(function(){
+	require('./compare');
 });
 
 /**
