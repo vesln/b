@@ -50,5 +50,4 @@ describe('batch', function () {
 				.run(3)
 		})
 	})
-
 })
