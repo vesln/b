@@ -1,23 +1,30 @@
 {
-    "name": "b"
-  , "version": "2.0.1"
-  , "description": "Benchmarks for Node.js."
-  , "keywords": ["benchmarks", "benchmarking"]
-  , "author": "Veselin Todorov <hi@vesln.com>"
-  , "devDependencies": {
-      "mocha": "*"
-    , "chai": "*"
-  }
-  , "repository" : {
-      "type" : "git"
-    , "url" : "http://github.com/vesln/b.git"
-  }
-  , "homepage": "http://github.com/vesln/b"
-  , "scripts": {
-      "test": "make test"
-  }
-  , "main": "./lib/b"
-  , "engines": {
-      "node": ">= 0.8.0"
+  "name": "b",
+  "version": "2.0.1",
+  "description": "Benchmarks for Node.js.",
+  "keywords": [
+    "benchmarks",
+    "benchmarking"
+  ],
+  "author": "Veselin Todorov <hi@vesln.com>",
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/vesln/b.git"
+  },
+  "homepage": "http://github.com/vesln/b",
+  "scripts": {
+    "test": "make test"
+  },
+  "main": "./lib/b",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "dependencies": {
+    "idgen": "~1.2.0",
+    "laissez-faire": "~0.12.1"
   }
 }
