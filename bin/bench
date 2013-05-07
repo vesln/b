@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+
+var program = require('commander')
+  , path = require('path')
+  , join = path.join
+  , basename = path.basename
+  , fs = require('fs')
+  , Batch = require('../lib/batch')
+
+program.version(require('../package').version)
+  .usage('[options] [files]')
+  .option('-n, --name <name>', 'benchmark title', project())
+  .option('-r, --recursive', 'include files in sub directories')
+  .option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
+  .option('-i, --iterations <number>', 'times to execute each benchmark [100]', 100)
+
+program.on('--help', function () {
+  write('  Examples: \n')
+  write('\n')
+  write('    # batch of all files in a directory\n')
+  write('    $ bench examples/file-benches\n')
+  write('\n')
+})
+
+// guess the current projects name
+
+function project(){
+  var cwd = process.cwd()
+  if (fs.existsSync(cwd+'/.git')) return basename(cwd)
+  return ''
+}
+
+function write(txt){
+  process.stdout.write(txt)
+}
+
+program.parse(process.argv)
+
+var args = program.args
+
+// default search path to bench/*.js
+
+if (!args.length) args.push('bench')
+
+// absolutize
+
+args = args.map(path.resolve)
+
+// match files
+
+var files = args.reduce(function(files, path){
+  return files.concat(lookupFiles(path, program.recursive))
+}, [])
+
+
+// Lookup file names at the given `path`.
+
+function lookupFiles(path, recursive) {
+  var files = []
+
+  if (!fs.existsSync(path)) path += '.js'
+  var stat = fs.statSync(path)
+  if (stat.isFile()) return path
+
+  fs.readdirSync(path)
+    .filter(function(name){
+      return name[0] != '.'
+    })
+    .forEach(function(file){
+      file = join(path, file)
+      var stat = fs.statSync(file)
+      if (stat.isDirectory()) {
+        if (recursive) files = files.concat(lookupFiles(file, recursive))
+      } else if (stat.isFile()) {
+        if (/\.js$/.test(file)) files.push(file)
+      }
+    })
+
+  return files
+}
+
+// build the batch
+
+var batch = new Batch(program.name)
+
+files.forEach(function(path){
+  batch.addFile(basename(path), path)
+})
+
+batch.reporter(program.reporter)
+
+batch.run(program.iterations)

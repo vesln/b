@@ -23,10 +23,14 @@
   "engines": {
     "node": ">= 0.8.0"
   },
+  "bin": {
+    "bench": "bin/bench"
+  },
   "dependencies": {
     "idgen": "~1.2.0",
     "laissez-faire": "~0.12.1",
     "map": "https://github.com/jkroso/map/archive/0.1.0.tar.gz",
-    "cli-table": "~0.2.0"
+    "cli-table": "~0.2.0",
+    "commander": "~1.1.1"
   }
 }
