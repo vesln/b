@@ -6,9 +6,9 @@ var sync = __dirname + '/support/sync-file.js'
 var async = __dirname + '/support/async-file.js'
 
 describe('file bench', function () {
-	describe('.run()', function () {
+	describe('.do()', function () {
 		it('should return a promise for result data', function (done) {
-			new Bench('sync', sync).run(10).then(function(res){
+			new Bench('sync', sync).do(10).then(function(res){
 				res.should.be.a('object')
 				res.should.have.keys([
 					'name',
@@ -23,8 +23,8 @@ describe('file bench', function () {
 
 		it('should be able to call it more than once', function (done) {
 			var bench = new Bench('sync', sync)
-			bench.run(10).then(function(a){
-				return bench.run(5).then(function(b){
+			bench.do(10).then(function(a){
+				return bench.do(5).then(function(b){
 					b.should.be.a('object')
 					a.should.not.equal(b)
 				})
@@ -32,7 +32,7 @@ describe('file bench', function () {
 		})
 
 		it('should handle async benchmarks', function (done) {
-			new Bench('async', async).run(10).then(function(res){
+			new Bench('async', async).do(10).then(function(res){
 				res.should.be.a('object')
 				res.total.should.be.a('number')
 					.and.be.within(80e6, 200e6)

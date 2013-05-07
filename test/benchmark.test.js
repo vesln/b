@@ -99,4 +99,32 @@ describe('Benchmark', function() {
       }).should.throw()
     })
   })
+
+  describe('.do(Number)', function () {
+    var keys = [
+      'name',
+      'iterations',
+      'total'
+    ];
+
+    describe('async', function () {
+      it('should return a promise for result data', function () {
+        var result = new Benchmark(function sync(i, done){
+          setTimeout(done, 10 - i)
+        }).do(5).then(function(result){
+          result.should.have.keys(keys)
+        })
+      })
+    })
+
+    describe('sync', function () {
+      it('should return an object containing timing data', function () {
+        var result = new Benchmark(function sync(i){
+          var start = Date.now()
+          while (Date.now() - start < 100);
+        }).do(5)
+        result.should.have.keys(keys)
+      })
+    })
+  })
 });

@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "idgen": "~1.2.0",
-    "laissez-faire": "~0.12.1"
+    "laissez-faire": "~0.12.1",
+    "map": "https://github.com/jkroso/map/archive/0.1.0.tar.gz",
+    "cli-table": "~0.2.0"
   }
 }
