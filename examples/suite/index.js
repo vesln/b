@@ -1,4 +1,13 @@
 
+/**
+ * This batch is equivilent to the cli command
+ * 
+ * $ bench examples/suite/request.js \
+ *     --key request \
+ *     --implementations examples/suite/implementations \
+ *     --cycles 100
+ */
+
 var Batch = require('../../lib/batch')
 
 var batch = new Batch('requests')

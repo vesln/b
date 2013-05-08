@@ -4,6 +4,7 @@ var program = require('commander')
   , path = require('path')
   , join = path.join
   , basename = path.basename
+  , resolve = path.resolve
   , fs = require('fs')
   , Batch = require('../lib/batch')
 
@@ -12,7 +13,9 @@ program.version(require('../package').version)
   .option('-n, --name <name>', 'benchmark title', project())
   .option('-r, --recursive', 'include files in sub directories')
   .option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
-  .option('-i, --iterations <number>', 'times to execute each benchmark [100]', 100)
+  .option('-c, --cycles <number>', 'times to execute each benchmark [1000]', 1000)
+  .option('-i, --implementations <files...>', 'modules to load into each benchmark', list, [])
+  .option('-k, --key <name>', 'the variable for the implementations', 'implementation')
 
 program.on('--help', function () {
   write('  Examples: \n')
@@ -30,6 +33,10 @@ function project(){
   return ''
 }
 
+function list(args){
+  return args.split(',')
+}
+
 function write(txt){
   process.stdout.write(txt)
 }
@@ -44,7 +51,7 @@ if (!args.length) args.push('bench')
 
 // absolutize
 
-args = args.map(path.resolve)
+args = args.map(function(name){ return resolve(name) })
 
 // match files
 
@@ -83,10 +90,28 @@ function lookupFiles(path, recursive) {
 
 var batch = new Batch(program.name)
 
+// --implementations 
+
+var imps = program.implementations
+if (imps.length) {
+  // expand paths
+  imps = imps.map(function(name){ return resolve(name) })
+  // look for existing files
+  imps = imps.reduce(function(files, path){
+    return files.concat(lookupFiles(path, false))
+  }, [])
+  if (!imps.length) throw new Error('no implementations found')
+  batch.load(program.key, imps)
+}
+
+// load the benchmarks
+
 files.forEach(function(path){
   batch.addFile(basename(path), path)
 })
 
+// --reporter
+
 batch.reporter(program.reporter)
 
-batch.run(program.iterations)
+batch.run(program.cycles)

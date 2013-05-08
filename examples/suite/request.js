@@ -10,8 +10,6 @@ var port = request === http.request
 /**
  * how long does it take to download and buffer
  * the same request using https vs http
- *
- * $ bench -l examples/suite/implementations examples/suite/request
  */
 
 module.exports = function(i, done){
