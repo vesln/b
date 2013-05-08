@@ -15,7 +15,8 @@ program.version(require('../package').version)
   .option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
   .option('-c, --cycles <number>', 'times to execute each benchmark [1000]', 1000)
   .option('-i, --implementations <files...>', 'modules to load into each benchmark', list, [])
-  .option('-k, --key <name>', 'the variable for the implementations', 'implementation')
+  .option('-k, --key <name>', 'the var implementations will be loaded under', 'implementation')
+  .option('--reporters', 'list the available reporters')
 
 program.on('--help', function () {
   write('  Examples: \n')
@@ -23,6 +24,16 @@ program.on('--help', function () {
   write('    # batch of all files in a directory\n')
   write('    $ bench examples/file-benches\n')
   write('\n')
+})
+
+program.on('reporters', function(){
+  var path = resolve(__dirname, '../lib/reporters')
+  write('\n')
+  fs.readdirSync(path).forEach(function(name){
+    write('  ' + name.replace(/\.js$/, '') + '\n')
+  })
+  write('\n')
+  process.exit()
 })
 
 // guess the current projects name
