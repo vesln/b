@@ -1,4 +1,4 @@
 
 module.exports = function(done){
-	setTimeout(done, 50)
+	setImmediate(done)
 }

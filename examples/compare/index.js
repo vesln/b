@@ -1,22 +1,27 @@
 
 /**
- * add file will pass any extra arguments its given to the 
- * process the benchmarks are run in. This can be exploited
- * to compare run various implementations through the same 
- * benchmark
+ * this benchmark can also be run with the following command
+ * though you can't set the name of a comparison benchmark
+ * from the CLI
+ * 
+ * $ bench examples/compare/bench.js \
+ *     -i examples/compare/implementations \
+ *     -k defer
  */
 
-var Batch = require('../../lib/batch')
+var Comparison = require('../../lib/comparison')
   , fs = require('fs')
 
 var file = __dirname + '/bench.js'
 var imps = fs.readdirSync(__dirname+'/implementations')
 
-var batch = new Batch('compare').reporter('table')
+var batch = new Comparison('defer execution', file)
+	.reporter('table')
+	.as('defer')
 
 imps.forEach(function(name){
 	var path = __dirname + '/implementations/' + name
-	batch.addFile(name, file, path)
+	batch.addFile(path)
 })
 
-batch.run(10)
+batch.run(1000)
