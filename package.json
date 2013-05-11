@@ -1,23 +1,36 @@
 {
-    "name": "b"
-  , "version": "2.0.1"
-  , "description": "Benchmarks for Node.js."
-  , "keywords": ["benchmarks", "benchmarking"]
-  , "author": "Veselin Todorov <hi@vesln.com>"
-  , "devDependencies": {
-      "mocha": "*"
-    , "chai": "*"
-  }
-  , "repository" : {
-      "type" : "git"
-    , "url" : "http://github.com/vesln/b.git"
-  }
-  , "homepage": "http://github.com/vesln/b"
-  , "scripts": {
-      "test": "make test"
-  }
-  , "main": "./lib/b"
-  , "engines": {
-      "node": ">= 0.8.0"
+  "name": "b",
+  "version": "3.0.0",
+  "description": "Benchmarks for Node.js.",
+  "keywords": [
+    "benchmarks",
+    "benchmarking"
+  ],
+  "author": "Veselin Todorov <hi@vesln.com>",
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/vesln/b.git"
+  },
+  "homepage": "http://github.com/vesln/b",
+  "scripts": {
+    "test": "make test"
+  },
+  "main": "./lib/b",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "bin": {
+    "bench": "bin/bench"
+  },
+  "dependencies": {
+    "idgen": "~1.2.0",
+    "laissez-faire": "~0.12.1",
+    "map": "https://github.com/jkroso/map/archive/0.1.0.tar.gz",
+    "cli-table": "~0.2.0",
+    "commander": "~1.1.1"
   }
 }

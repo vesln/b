@@ -33,14 +33,18 @@ describe('b', function() {
   });
 
   it('returns a new benchmark', function() {
-    b().should.be.an.instanceof(Benchmark);
+    b(function(){}).should.be.an.instanceof(Benchmark);
   });
 
   it('sets the supplied benchmark description', function() {
-    b('Test')._name.should.eq('Test');
+    b('Test', function(){})._name.should.eq('Test');
   });
 
+  it('can infer a name from the function', function () {
+    b(function test(){})._name.should.equal('test')
+  })
+
   it('sets the default reporter', function() {
-    b()._reporter.should.be.an.instanceof(Reporter);
+    b(function(){})._reporter.should.be.an.instanceof(Reporter);
   });
 });
