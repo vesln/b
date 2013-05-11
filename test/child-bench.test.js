@@ -4,6 +4,8 @@ var should = require('chai').should()
 
 var sync = __dirname + '/support/sync-file.js'
 var async = __dirname + '/support/async-file.js'
+var before = __dirname + '/support/before.js'
+var run = __dirname + '/support/run.js'
 
 describe('file bench', function () {
 	describe('.do()', function () {
@@ -46,6 +48,22 @@ describe('file bench', function () {
 			bench.close()
 			bench.child.connected.should.be.false
 			bench.child.killed.should.be.true
+		})
+	})
+
+	describe('before(fn)', function () {
+		it('should call `fn` before each run', function (done) {
+			new Bench('before', before).do(10).then(function(res){
+				res.should.be.a('object')
+			}).node(done)
+		})
+	})
+
+	describe('run(fn)', function () {
+		it('should take precedence over the exported function', function (done) {
+			new Bench('run', run).do(10).then(function(res){
+				res.should.be.a('object')
+			}).node(done)
 		})
 	})
 })
