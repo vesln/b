@@ -50,4 +50,28 @@ describe('Reporter', function() {
     buf.should.include('x 100');
     buf.should.match(/Total: +1 ms/);
   });
+
+  describe('batch reporters', function () {
+    var Table = require('../lib/reporters/table')
+
+    describe('table', function () {
+      it('should present a nice table', function () {
+        var reporter = new Table()
+        reporter.out = stream
+        reporter.report(
+          'test batch', 
+          [
+            {name: 'a', total: 1e8, iterations: 10},
+            {name: 'b', total: 2e8, iterations: 10},
+            {name: 'c', total: 3e8, iterations: 10}
+          ],
+          10
+        );
+        var buf = stream.out.join('');
+        buf.should.match(/total +\(ms\) +│/i)
+        buf.should.match(/average +\(ns\) +│/i)
+        buf.should.match(/diff +\(%\) +│/i)
+      })
+    })
+  })
 });
