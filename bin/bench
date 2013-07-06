@@ -1,57 +1,57 @@
 #!/usr/bin/env node
 
 var program = require('commander')
-  , path = require('path')
-  , join = path.join
-  , basename = path.basename
-  , resolve = path.resolve
-  , fs = require('fs')
-  , Batch = require('../lib/batch')
-  , Comparison = require('../lib/comparison')
-  , Promise = require('laissez-faire/full')
+	, path = require('path')
+	, join = path.join
+	, basename = path.basename
+	, resolve = path.resolve
+	, fs = require('fs')
+	, Batch = require('../lib/batch')
+	, Comparison = require('../lib/comparison')
+	, Promise = require('laissez-faire/full')
 
 program.version(require('../package').version)
-  .usage('[options] [files]')
-  .option('-n, --name <name>', 'benchmark title')
-  .option('-r, --recursive', 'include files in sub directories')
-  .option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
-  .option('-c, --cycles <number>', 'times to execute each benchmark [1000]', 1000)
-  .option('-i, --implementations <files...>', 'modules to load into each benchmark', list)
-  .option('-k, --key <name>', 'global variable where benchmarks expect to find an implementation', 'implementation')
-  .option('--reporters', 'list the available reporters')
+	.usage('[options] [files]')
+	.option('-n, --name <name>', 'benchmark title')
+	.option('-r, --recursive', 'include files in sub directories')
+	.option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
+	.option('-c, --cycles <number>', 'times to execute each benchmark [1000]', 1000)
+	.option('-i, --implementations <files...>', 'modules to load into each benchmark', list)
+	.option('-k, --key <name>', 'global variable where benchmarks expect to find an implementation', 'implementation')
+	.option('--reporters', 'list the available reporters')
 
 program.on('--help', function () {
-  write('  Examples: \n')
-  write('\n')
-  write('    # batch of all files in a directory\n')
-  write('    $ bench examples/file-benches\n')
-  write('\n')
+	write('  Examples: \n')
+	write('\n')
+	write('    # batch of all files in a directory\n')
+	write('    $ bench examples/file-benches\n')
+	write('\n')
 })
 
 program.on('reporters', function(){
-  var path = resolve(__dirname, '../lib/reporters')
-  write('\n')
-  fs.readdirSync(path).forEach(function(name){
-    write('  ' + name.replace(/\.js$/, '') + '\n')
-  })
-  write('\n')
-  process.exit()
+	var path = resolve(__dirname, '../lib/reporters')
+	write('\n')
+	fs.readdirSync(path).forEach(function(name){
+		write('  ' + name.replace(/\.js$/, '') + '\n')
+	})
+	write('\n')
+	process.exit()
 })
 
 // guess the current projects name
 
 function project(){
-  var cwd = process.cwd()
-  if (fs.existsSync(cwd+'/.git')) return basename(cwd)
-  return ''
+	var cwd = process.cwd()
+	if (fs.existsSync(cwd+'/.git')) return basename(cwd)
+	return ''
 }
 
 function list(args){
-  return args.split(',')
+	return args.split(',')
 }
 
 function write(txt){
-  process.stdout.write(txt)
+	process.stdout.write(txt)
 }
 
 program.parse(process.argv)
@@ -69,7 +69,7 @@ args = args.map(function(name){ return resolve(name) })
 // match files
 
 var files = args.reduce(function(files, path){
-  return files.concat(lookupFiles(path, program.recursive))
+	return files.concat(lookupFiles(path, program.recursive))
 }, [])
 
 if (!files.length) throw new Error('no files found')
@@ -77,77 +77,90 @@ if (!files.length) throw new Error('no files found')
 // Lookup file names at the given `path`.
 
 function lookupFiles(path, recursive) {
-  var files = []
+	var files = []
 
-  if (!fs.existsSync(path)) path += '.js'
-  var stat = fs.statSync(path)
-  if (stat.isFile()) return path
+	if (!fs.existsSync(path)) path += '.js'
+	var stat = fs.statSync(path)
+	if (stat.isFile()) return path
 
-  fs.readdirSync(path)
-    .filter(function(name){
-      return name[0] != '.'
-    })
-    .forEach(function(file){
-      file = join(path, file)
-      var stat = fs.statSync(file)
-      if (stat.isDirectory()) {
-        if (recursive) files = files.concat(lookupFiles(file, recursive))
-      } else if (stat.isFile()) {
-        if (/\.js$/.test(file)) files.push(file)
-      }
-    })
+	fs.readdirSync(path)
+		.filter(function(name){
+			return name[0] != '.'
+		})
+		.forEach(function(file){
+			file = join(path, file)
+			var stat = fs.statSync(file)
+			if (stat.isDirectory()) {
+				if (recursive) files = files.concat(lookupFiles(file, recursive))
+			} else if (stat.isFile()) {
+				if (/\.js$/.test(file)) files.push(file)
+			}
+		})
 
-  return files
+	return files
 }
 
 // --name
 
 if (!program.name) {
-  if (files.length == 1) program.name = basename(files[0])
-  else program.name = project()
+	if (files.length == 1) program.name = basename(files[0])
+	else program.name = project()
 }
 
 var imps = program.implementations
 
 // comparison
 if (imps) {
-  // expand paths
-  imps = imps.map(function(name){ return resolve(name) })
-  // look for existing files
-  imps = imps.reduce(function(files, path){
-    return files.concat(lookupFiles(path, false))
-  }, [])
-  if (!imps.length) throw new Error('no implementations found')
+	// expand paths
+	imps = imps.map(function(name){ return resolve(name) })
+	// look for existing files
+	imps = imps.reduce(function(files, path){
+		return files.concat(lookupFiles(path, false))
+	}, [])
+	if (!imps.length) throw new Error('no implementations found')
 
-  // sequence all benchmarks
-  files.reduce(function(job, next){
-    return job.then(function(){
-      var name = basename(next).replace(/\.js/, '')
-      var batch = new Comparison(name, next)
-      
-      // --key
-      batch.as(program.key)
+	// sequence all benchmarks
+	files.reduce(function(job, next){
+		return job.then(function(){
+			var name = basename(next).replace(/\.js/, '')
+			var batch = new Comparison(name, next)
+			
+			// --key
+			batch.as(program.key)
 
-      // --reporter
-      batch.reporter(program.reporter)
+			// --reporter
+			batch.reporter(program.reporter)
 
-      imps.forEach(function(file){
-        batch.addFile(file)
-      })
+			shuffle(imps).forEach(function(file){
+				batch.addFile(file)
+			})
 
-      return batch.run(program.cycles)
-    })
-  }, Promise.fulfilled())
+			return batch.run(program.cycles)
+		})
+	}, Promise.fulfilled())
 }
 // plain batch
 else {
-  var batch = new Batch(program.name)
+	var batch = new Batch(program.name)
 
-  files.forEach(function(path){
-    batch.addFile(path)
-  })
+	files.forEach(function(path){
+		batch.addFile(path)
+	})
 
-  batch.reporter(program.reporter)
+	batch.reporter(program.reporter)
 
-  batch.run(program.cycles)
+	batch.run(program.cycles)
+}
+
+function shuffle(arr){
+	var i = arr.length
+
+	while (i) {
+		var random = Math.floor(Math.random() * i)
+		var temp = arr[--i]
+		arr[i] = arr[random]
+		arr[random] = temp
+	}
+
+	return arr
 }
