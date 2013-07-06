@@ -60,8 +60,7 @@ describe('batch', function () {
 					bench.child.killed.should.be.true
 					bench.child.connected.should.be.false
 				})
-				done()
-			})
+			}).node(done)
 		})
 	})
 })

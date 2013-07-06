@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 var program = require('commander')
-	, path = require('path')
-	, join = path.join
-	, basename = path.basename
-	, resolve = path.resolve
-	, fs = require('fs')
-	, Batch = require('../lib/batch')
-	, Comparison = require('../lib/comparison')
-	, Promise = require('laissez-faire/full')
+  , Comparison = require('../lib/comparison')
+  , each = require('foreach/series')
+  , Batch = require('../lib/batch')
+  , path = require('path')
+  , join = path.join
+  , basename = path.basename
+  , resolve = path.resolve
+  , fs = require('fs')
 
 program.version(require('../package').version)
 	.usage('[options] [files]')
@@ -119,25 +119,22 @@ if (imps) {
 	}, [])
 	if (!imps.length) throw new Error('no implementations found')
 
-	// sequence all benchmarks
-	files.reduce(function(job, next){
-		return job.then(function(){
-			var name = basename(next).replace(/\.js/, '')
-			var batch = new Comparison(name, next)
-			
-			// --key
-			batch.as(program.key)
+	each(files, function(file){
+		var name = basename(file, '.js')
+		var batch = new Comparison(name, file)
+		
+		// --key
+		batch.as(program.key)
 
-			// --reporter
-			batch.reporter(program.reporter)
+		// --reporter
+		batch.reporter(program.reporter)
 
-			shuffle(imps).forEach(function(file){
-				batch.addFile(file)
-			})
-
-			return batch.run(program.cycles)
+		shuffle(imps).forEach(function(file){
+			batch.addFile(file)
 		})
-	}, Promise.fulfilled())
+
+		return batch.run(program.cycles)
+	})
 }
 // plain batch
 else {
