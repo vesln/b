@@ -10,12 +10,25 @@ var program = require('commander')
   , resolve = path.resolve
   , fs = require('fs')
 
+function parseCycles(v){
+	var map = {'': 1000};
+	v.split(',').forEach(function (p){
+		var nv = p.split(':');
+		if (nv.length === 1) {
+			map[''] = parseInt(nv[0]);
+		} else if (nv.length >= 2) {
+			map[nv[0]] = parseInt(nv[1]);
+		}
+	});
+	return map;
+}
+
 program.version(require('../package').version)
 	.usage('[options] [files]')
 	.option('-n, --name <name>', 'benchmark title')
 	.option('-r, --recursive', 'include files in sub directories')
 	.option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
-	.option('-c, --cycles <number>', 'times to execute each benchmark [1000]', 1000)
+	.option('-c, --cycles <number|map>', 'times to execute each benchmark [1000]', parseCycles, parseCycles(''))
 	.option('-i, --implementations <files...>', 'modules to load into each benchmark', list)
 	.option('-k, --key <name>', 'global variable where benchmarks expect to find an implementation', 'implementation')
 	.option('--reporters', 'list the available reporters')
@@ -133,7 +146,7 @@ if (imps) {
 			batch.addFile(file)
 		})
 
-		return batch.run(program.cycles)
+		return batch.run(program.cycles[name] || program.cycles[''])
 	}).read();
 }
 // plain batch
@@ -146,7 +159,7 @@ else {
 
 	batch.reporter(program.reporter)
 
-	batch.run(program.cycles)
+	batch.run(program.cycles[program.name] || program.cycles[''])
 }
 
 function shuffle(arr){
