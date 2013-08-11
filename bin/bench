@@ -134,7 +134,7 @@ if (imps) {
 		})
 
 		return batch.run(program.cycles)
-	})
+	}).read();
 }
 // plain batch
 else {
