@@ -7,10 +7,6 @@
     "benchmarking"
   ],
   "author": "Veselin Todorov <hi@vesln.com>",
-  "devDependencies": {
-    "mocha": "*",
-    "chai": "*"
-  },
   "repository": {
     "type": "git",
     "url": "http://github.com/vesln/b.git"
@@ -27,12 +23,16 @@
     "bench": "bin/bench"
   },
   "dependencies": {
-    "idgen": "1.3.0",
-    "result": "0.3.3",
     "result-type": "1.0.0",
     "cli-table": "0.2.0",
     "commander": "2.0.0",
-    "map": "http://github.com/jkroso/map/tarball/0.2.6",
-    "foreach": "http://github.com/jkroso/forEach/tarball/0.8.5"
+    "result": "~0.4.3",
+    "idgen": "1.3.0",
+    "map": "jkroso/map#0.2.9",
+    "foreach": "jkroso/forEach#0.8.8"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
   }
 }
