@@ -1,6 +1,6 @@
 
+var Bench = require('../lib/child-bench')
 var should = require('chai').should()
-  , Bench = require('../lib/child-bench')
 
 var sync = __dirname + '/support/sync-file.js'
 var async = __dirname + '/support/async-file.js'
@@ -39,6 +39,24 @@ describe('file bench', function () {
 				res.total.should.be.a('number')
 					.and.be.within(80e6, 200e6)
 			}).node(done)
+		})
+
+		it('should report errors', function(done){
+			var file = __dirname + '/support/child-error.js'
+			new Bench('error', file).do(10).read(null, function(err){
+				err.should.be.an.instanceOf(Error)
+				err.should.have.property('message', 'wat')
+				done()
+			})
+		})
+
+		it('should report async errors', function(done){
+			var file = __dirname + '/support/child-error-async.js'
+			new Bench('error', file).do(10).read(null, function(err){
+				err.should.be.an.instanceOf(Error)
+				err.should.have.property('message', 'wat')
+				done()
+			})
 		})
 	})
 
