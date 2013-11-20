@@ -57,6 +57,13 @@ describe('file bench', function () {
 				res.should.be.a('object')
 			}).node(done)
 		})
+
+		it('async', function(done){
+			var file = __dirname + '/support/before-async.js'
+			new Bench('before', before).do(10).then(function(res){
+				res.should.be.a('object')
+			}).node(done)
+		})
 	})
 
 	describe('run(fn)', function () {
