@@ -7,10 +7,7 @@
     "benchmarking"
   ],
   "author": "Veselin Todorov <hi@vesln.com>",
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/vesln/b.git"
-  },
+  "repository": "http://github.com/vesln/b.git",
   "homepage": "http://github.com/vesln/b",
   "scripts": {
     "test": "make test"
@@ -34,5 +31,6 @@
   "devDependencies": {
     "mocha": "*",
     "chai": "*"
-  }
+  },
+  "files": [ "lib", "bin"]
 }
