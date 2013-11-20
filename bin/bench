@@ -1,34 +1,22 @@
 #!/usr/bin/env node
 
+var Comparison = require('../lib/comparison')
+var each = require('foreach/series')
+var Batch = require('../lib/batch')
 var program = require('commander')
-  , Comparison = require('../lib/comparison')
-  , each = require('foreach/series')
-  , Batch = require('../lib/batch')
-  , path = require('path')
-  , join = path.join
-  , basename = path.basename
-  , resolve = path.resolve
-  , fs = require('fs')
+var path = require('path')
+var basename = path.basename
+var resolve = path.resolve
+var join = path.join
+var fs = require('fs')
 
-function parseCycles(v){
-	var map = {'': 1000};
-	v.split(',').forEach(function (p){
-		var nv = p.split(':');
-		if (nv.length === 1) {
-			map[''] = parseInt(nv[0]);
-		} else if (nv.length >= 2) {
-			map[nv[0]] = parseInt(nv[1]);
-		}
-	});
-	return map;
-}
 
 program.version(require('../package').version)
 	.usage('[options] [files]')
 	.option('-n, --name <name>', 'benchmark title')
 	.option('-r, --recursive', 'include files in sub directories')
 	.option('-R, --reporter <name>', 'specify the reporter to use [table]', 'table')
-	.option('-c, --cycles <number|map>', 'times to execute each benchmark [1000]', parseCycles, parseCycles(''))
+	.option('-c, --cycles <number|map>', 'times to execute each benchmark [1000]', parseCycles, {'': 1000})
 	.option('-i, --implementations <files...>', 'modules to load into each benchmark', list)
 	.option('-k, --key <name>', 'global variable where benchmarks expect to find an implementation', 'implementation')
 	.option('--reporters', 'list the available reporters')
@@ -50,6 +38,15 @@ program.on('reporters', function(){
 	write('\n')
 	process.exit()
 })
+
+function parseCycles(str){
+	return str.split(',').reduce(function(map, kv){
+		kv = kv.split(':')
+		if (kv.length == 1) map[''] = parseInt(kv[0], 10)
+		else map[kv[0]] = parseInt(kv[1], 10)
+		return map
+	}, {'': 1000})
+}
 
 // guess the current projects name
 
@@ -135,7 +132,7 @@ if (imps) {
 	each(files, function(file){
 		var name = basename(file, '.js')
 		var batch = new Comparison(name, file)
-		
+
 		// --key
 		batch.as(program.key)
 
