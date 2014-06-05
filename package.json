@@ -25,6 +25,7 @@
     "idgen": "~2.0.2"
   },
   "devDependencies": {
+    "result-co": "*",
     "mocha": "*",
     "chai": "*"
   },
