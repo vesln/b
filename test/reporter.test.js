@@ -59,7 +59,7 @@ describe('Reporter', function() {
         var reporter = new Table()
         reporter.out = stream
         reporter.report(
-          'test batch', 
+          'test batch',
           [
             {name: 'a', total: 1e8, iterations: 10},
             {name: 'b', total: 2e8, iterations: 10},
