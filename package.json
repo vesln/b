@@ -22,6 +22,7 @@
     "commander": "~2.2.0",
     "cli-table": "~0.3.0",
     "result": "~1.0.2",
+    "result-type": "*",
     "idgen": "~2.0.2"
   },
   "devDependencies": {
