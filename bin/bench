@@ -156,7 +156,7 @@ else {
 
 	batch.reporter(program.reporter)
 
-	batch.run(program.cycles[program.name] || program.cycles[''])
+	batch.run(program.cycles[program.name] || program.cycles['']).read()
 }
 
 function shuffle(arr){
