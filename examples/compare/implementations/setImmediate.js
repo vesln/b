@@ -1,4 +1,4 @@
-
+var setImm = typeof setImmediate !== 'undefined' ? setImmediate : process.nextTick 
 module.exports = function(done){
-	setImmediate(done)
+	setImm(done)
 }
